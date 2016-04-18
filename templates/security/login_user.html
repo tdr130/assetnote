@@ -1,0 +1,56 @@
+{% from "security/_macros.html" import render_field_with_errors, render_field %}
+<!DOCTYPE html>
+<html lang="en-gb" dir="ltr" class="uk-height-1-1">
+    <head>
+        <meta charset="utf-8">
+        <title>Assetnote Web Panel</title>
+        <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/x-icon">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/uikit.min.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+        <link href='http://fonts.googleapis.com/css?family=Droid+Sans' rel='stylesheet' type='text/css'>
+        <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/uikit.min.js') }}"></script>
+    </head>
+    <body>
+        <nav class="uk-navbar">
+            <a class="uk-navbar-brand" href="#">Assetnote</a>
+            <ul class="uk-navbar-nav">
+                <li class="uk-parent uk-active" data-uk-dropdown="">
+                    <a href=""><i class="uk-icon-gears"></i> Actions</a>
+                    <div class="uk-dropdown uk-dropdown-navbar">
+                        <ul class="uk-nav uk-nav-navbar">
+                            <li class="uk-nav-header">Login</li>
+                            <li><a href="login"><i class="uk-icon-user"></i> Login</a></li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+        <div class="uk-vertical-align uk-text-center uk-height-1-1">
+            <div class="uk-vertical-align-middle" style="width: 250px;">
+
+                <img class="uk-margin-bottom" width="140" height="120" src="https://i.imgur.com/NwweHSB.png" alt="">
+
+                <form class="uk-panel uk-panel-box uk-form" action="/login" method="POST" name="login_form">
+                    {{ login_user_form.hidden_tag() }}
+                    <div class="uk-form-row">
+                        <input class="uk-width-1-1 uk-form-large" type="text" name="email" placeholder="Username">
+                    </div>
+                    <div class="uk-form-row">
+                        <input class="uk-width-1-1 uk-form-large" type="password" name="password" placeholder="Password">
+                    </div>
+                    <div class="uk-form-row">
+                        <input value="Login" name="submit" type="submit" class="uk-width-1-1 uk-button uk-button-primary uk-button-large" id="submit"></input>
+                    </div>
+                    <input id="next" name="next" type="hidden" value="/">
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
+                    <hr>
+                    <div class="uk-form-row uk-text-small">
+                        <label class="uk-float-left"><input type="checkbox" name="remember" id="remember"> Remember Me</label>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </body>
+</html>

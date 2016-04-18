@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en-gb" dir="ltr" class="uk-height-1-1">
+    <head>
+        <meta charset="utf-8">
+        <title>Assetnote Web Panel</title>
+        <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/x-icon">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/uikit.almost-flat.min.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+        <link href='http://fonts.googleapis.com/css?family=Droid+Sans' rel='stylesheet' type='text/css'>
+        <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/uikit.min.js') }}"></script>
+    </head>
+
+    <body>
+        <nav class="uk-navbar">
+            <a class="uk-navbar-brand" href="#">Assetnote Administration Panel</a>
+                <ul class="uk-navbar-nav">
+                    
+                    <li class="uk-active">
+                        <a href="/">Home</a>
+                    </li>
+                    <li id="managedomains"><a href="/manage"><i class="uk-icon-globe"></i> Manage domains and notifications</a></li>                    
+                </ul>
+
+            <div class="uk-navbar-content uk-navbar-flip  uk-hidden-small">
+                <div class="uk-button-group">  
+                    <a class="uk-button uk-button-danger" href="logout">Logout</a>
+                </div>
+            </div>
+
+        </nav>
+        <br>
+        <div class="uk-grid uk-grid-preserve padd">
+            <div class="uk-width-1-1">
+                <div class="uk-panel uk-panel-box uk-panel-box-primary">
+                    <h2><i class="uk-icon-bar-chart"></i> General Statistics</h2>
+                        <p>This box will show statistics regarding the data this application has stored and found.</p>
+                        <hr>
+                </div>
+                <table id="sent" class="uk-table">
+                <caption>Recent push notifications sent</caption>
+                <thead>
+                    <tr>
+                        <th>Domain Name</th>
+                        <th>Pushover User API Key</th>
+                        <th>Timestamp</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for notification in sent | sort(reverse=True) %}
+                    <tr>
+                        <td>{{notification[1]}}</td>
+                        <td>{{notification[2]}}</td>
+                        <td>{{notification[3]}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            </div>
+
+        </div>
+        
+
+    </body>
+    <script>
+        $(document).ready(function () {
+            $("#{{request.endpoint}}").addClass("selectedlink", "uk-active");
+            $("#{{request.endpoint}}").find('a').addClass("whiteycracker");
+        })
+    </script>
+</html>

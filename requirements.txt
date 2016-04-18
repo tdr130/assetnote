@@ -1,0 +1,10 @@
+Flask
+Flask-SeaSurf
+SQLAlchemy
+Flask-Security
+flask-sqlalchemy
+MySQL-python
+bcrypt
+python-pushover
+ndg-httpsclient
+pyasn1

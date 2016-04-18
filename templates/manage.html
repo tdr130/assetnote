@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en-gb" dir="ltr" class="uk-height-1-1">
+    <head>
+        <meta charset="utf-8">
+        <title>Assetnote Web Panel</title>
+        <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/x-icon">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/uikit.almost-flat.min.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+        <link href='http://fonts.googleapis.com/css?family=Droid+Sans' rel='stylesheet' type='text/css'>
+        <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/uikit.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/datatables.js') }}"></script>
+    </head>
+
+    <body>
+        <nav class="uk-navbar">
+            <a class="uk-navbar-brand" href="#">Assetnote Administration Panel</a>
+                <ul class="uk-navbar-nav">
+                    
+                    <li class="">
+                        <a href="/">Home</a>
+                    </li>
+                    <li id="managedomains" class="uk-active"><a href="/manage"><i class="uk-icon-globe"></i> Manage domains and notifications</a></li>                    
+                </ul>
+
+            <div class="uk-navbar-content uk-navbar-flip  uk-hidden-small">
+                <div class="uk-button-group">  
+                    <a class="uk-button uk-button-danger" href="logout">Logout</a>
+                </div>
+            </div>
+
+        </nav>
+        <br>
+        <div class="uk-grid uk-grid-preserve padd">
+            <div class="uk-width-1-1">
+                <div class="uk-panel uk-panel-box uk-panel-box-primary">
+                    <h2><i class="uk-icon-globe"></i> Add a domain to the domain/asset monitoring list</h2>
+                        <p>This panel lets you add a domain to the monitoring queue. You will need the domain you wish to monitor from the private feeds configured for Assetnote as well as a push notification key from Pushover. Our scrapers will run every hour for every domain in the queue below.</p>
+                        <hr>
+                        <form class="uk-form">
+                            <fieldset data-uk-margin>
+                                <input class="uk-form-large uk-form-width-large" type="text" name="domain" placeholder="Domain to monitor, i.e. google.com">
+                                <input class="uk-form-large uk-form-width-large" type="text" name="pushover_key" placeholder="Pushover API key - User Key">
+                                <a href="#" class="uk-button uk-button-large" id="add">Add to monitoring list</a>
+                            </fieldset>
+                        </form>
+
+                </div>
+                <div id="failed" style="display:none" class="uk-alert uk-alert-danger" data-uk-alert>
+                    <a href="" class="uk-alert-close uk-close"></a>
+                    <span id="result_failure"></span>
+                </div>
+                <div id="success" style="display:none" class="uk-alert uk-alert-success" data-uk-alert>
+                    <a href="" class="uk-alert-close uk-close"></a>
+                    <span id="result_success"></span>
+                </div>
+                <table id="pushnotify" class="uk-table">
+                    <caption>Domains currently being monitored</caption>
+                    <thead>
+                        <tr>
+                            <th>Domain Name</th>
+                            <th>Pushover User API Key</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in domains_monitored %}
+                        <tr>
+                            <td>{{row[1]}}</td>
+                            <td>{{row[3]}}</td>
+                            <td><a href="javascript:delete_record('{{row[0]}}')" class="uk-button-danger uk-button-small">Delete</a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </body>
+    <script>
+          $(function() {
+            $('a#add').bind('click', function() {
+              $.post('/api/add_domain', {
+                domain: $('input[name="domain"]').val(),
+                pushover_key: $('input[name="pushover_key"]').val(),
+                _csrf_token: "{{ csrf_token() }}"
+              }, function(data) {
+                if (data.result == "false") {
+                    $("#result_failure").text(data.result);
+                    $("#failed").show();
+                } else if (data.result == "success") {
+                    $("#result_success").text(data.result);
+                    $("#success").show();
+                    location.reload();
+                }
+              }, "json");
+              return false;
+            });
+          });
+        function delete_record(id) {
+            $.post('/api/delete_domain', {
+                d_id: id,
+                _csrf_token: "{{ csrf_token() }}"
+            }, function(data) {
+                if (data.result == "success") {
+                    location.reload();
+                } else {
+                    alert("Error deleting record: " + data.result);
+                }
+            })
+        }
+    </script>
+</html>

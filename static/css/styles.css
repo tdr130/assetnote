@@ -1,0 +1,8 @@
+.selectedlink {
+	background: #00a8e6;
+	color: #ffffff !important;
+	text-shadow: none;
+}
+.padd {
+	padding: 40px;
+}

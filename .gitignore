@@ -1,0 +1,3 @@
+./venv/*
+sftp-config.json
+*.pyc
