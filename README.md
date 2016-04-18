@@ -6,23 +6,25 @@ Assetnote notifies you of assets that have been found through scraping passive d
 
 For public release, I have included an example `manager` script for assetnote. This is Threatcrowd's public yet passive DNS data store. Assetnote can be extended very easily by writing scripts that interact with the `assetnote.db` SQLite database. The more scripts that have been made to scrape data sources, the more success one will have with this tool.
 
+Assetnote was created mainly for bug bounties, to assist with finding bugs before others do. You get a push notification that a new subdomain has been put online, you're now probably one of the first people to know of this new asset. This means fewer duplicate findings and a higher success rate in finding security flaws in an organization.
+
 ## Screenshots
 
 Login:
 
-![login](https://i.imgur.com/ZkwWrga.png)
+<img src="https://i.imgur.com/ZkwWrga.png" width="512">
 
 Sent notifications:
 
-![sent](https://i.imgur.com/R1ShMcG.png)
+<img src="https://i.imgur.com/R1ShMcG.png" width="512">
 
 Adding assets:
 
-![assets](https://i.imgur.com/xZWHiLB.png)
+<img src="https://i.imgur.com/xZWHiLB.png" width="512">
 
 Push notification assets seen on the phone:
 
-![notifications](https://i.imgur.com/71SzMB4.png)
+<img src="https://i.imgur.com/71SzMB4.png" width="256">
 
 ## Concepts
 
